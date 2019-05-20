@@ -142,6 +142,15 @@
 											"scrollbars=no,scrolling=no,menubar=no,resizable=no");
 			});
 		});	
+		
+		
+		/* $(function(){
+			$("#qwe").on("keydown", function(){
+				
+				var obj = new Object();				
+				
+			});
+		}); */
 
 	</script>		
 	
@@ -150,6 +159,7 @@
 <body bgcolor="#ffffff" text="#000000">
 
 <form name="detailForm">
+
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -185,8 +195,11 @@
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td width="105">
-						<input 	type="text" name="userId" class="ct_input_bg" 
-										style="width:100px; height:19px"  maxLength="20" >
+					
+<!-- 					<input class="abc" id="qwe"> -->
+					
+<!-- 						<input 	type="text" name="userId" class="ct_input_bg"  -->
+<!-- 										style="width:100px; height:19px"  maxLength="20" > -->
 					</td>
 					<td>
 						<table border="0" cellspacing="0" cellpadding="0">

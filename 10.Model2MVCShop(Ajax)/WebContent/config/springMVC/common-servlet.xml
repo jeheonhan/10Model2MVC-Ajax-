@@ -83,4 +83,7 @@
 		
 	</bean>
 	
+	<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+	</bean>
+	
 </beans>
