@@ -17,7 +17,7 @@
 	<script type="text/javascript">
 	
 		// 검색 / page 두가지 경우 모두 Form 전송을 위해 JavaScrpt 이용  
-		function fncGetUserList(currentPage) {
+		function fncGetList(currentPage) {
 			$("#currentPage").val(currentPage)
 			$("form").attr("method" , "POST").attr("action" , "/user/listUser").submit();
 		}
@@ -31,8 +31,14 @@
 			 $( "td.ct_btn01:contains('검색')" ).on("click" , function() {
 				//Debug..
 				//alert(  $( "td.ct_btn01:contains('검색')" ).html() );
-				fncGetUserList(1);
+				fncGetList('1');
 			});
+			
+			 $( "input[name='searchKeyword']" ).on("keydown" , function(event) {
+					if(event.keyCode == '13'){
+						fncGetList('1');
+					}
+				});
 			
 			
 			//==> userId LINK Event 연결처리
@@ -67,8 +73,8 @@
 																+"이  름 : "+JSONData.userName+"<br/>"
 																+"이메일 : "+JSONData.email+"<br/>"
 																+"ROLE : "+JSONData.role+"<br/>"
-																+"등록일 : "+JSONData.regDate+"<br/>"
-																+"</h3>";
+																+"등록일 : "+JSONData.regDate+"<br/><br/>"
+																+"<a href='/user/getUser?userId="+userId+"'>상세정보 보기</a></h3>";
 									//Debug...									
 									//alert(displayValue);
 									$("h3").remove();
@@ -168,11 +174,11 @@
 		<tr class="ct_list_pop">
 			<td align="center">${ i }</td>
 			<td></td>
-			<td align="left">${user.userId}</td>
+			<td align="center">${user.userId}</td>
 			<td></td>
-			<td align="left">${user.userName}</td>
+			<td align="center">${user.userName}</td>
 			<td></td>
-			<td align="left">${user.email}
+			<td align="center">${user.email}
 			</td>
 		</tr>
 		<tr>

@@ -1,5 +1,6 @@
 package com.model2.mvc.web.product;
 
+import java.io.File;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -42,7 +43,8 @@ public class ProductController {
 	
 	@RequestMapping( value="addProduct", method=RequestMethod.POST)
 	public String addProduct(@ModelAttribute("pvo") Product product,
-							@RequestParam(value="file", required=false) MultipartFile imgFile) throws Exception {
+							@RequestParam(value="file", required=false) MultipartFile imgFile,
+							HttpServletRequest request) throws Exception {
 		
 		System.out.println("/addProduct");
 		
@@ -52,11 +54,21 @@ public class ProductController {
 		
 		System.out.println("imgFile.getOriginalFilename()  :: " + imgFile.getOriginalFilename());
 		System.out.println("Product :: " + product);
+		System.out.println("이미지 파일 크기 : "+imgFile.getSize());		
 		
-		String temDir = 
-				"C:\\Users\\USER\\git\\06Model2MVCShop-Presentation-BusinessLogic-\\06.Model2MVCShop(Presentation+BusinessLogic)\\WebContent\\images\\uploadFiles";
+		String temDir = "C:\\Users\\USER\\git\\10Model2MVC-Ajax-\\10.Model2MVCShop(Ajax)\\WebContent\\images\\uploadFiles"; 
+				
 		
 		if(!imgFile.isEmpty()) {
+			
+			String fileName = imgFile.getOriginalFilename();
+			product.setFileName(fileName);
+			try {
+				File uploadedFile = new File(temDir, fileName);
+				imgFile.transferTo(uploadedFile);
+			}catch(Exception e) {
+				System.out.println(e);
+			}
 			
 		}
 		productService.addProduct(product);

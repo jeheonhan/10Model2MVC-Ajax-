@@ -113,7 +113,14 @@
 			<table border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td height="26">
-						<img src="/images/uploadFiles/../../images/empty.GIF"/>
+						<c:choose>
+							<c:when test="${!(pvo.fileName == null || pvo.fileName == '')}">
+								<img src = "/images/uploadFiles/${pvo.fileName}"/>
+							</c:when>
+							<c:otherwise>
+								<img src = "/images/no_detail_img.gif"/>
+							</c:otherwise>
+						</c:choose>
 					</td>
 				</tr>
 			</table>
