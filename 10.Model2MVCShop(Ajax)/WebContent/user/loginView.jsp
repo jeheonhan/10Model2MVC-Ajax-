@@ -14,84 +14,91 @@
 	<!-- CDN(Content Delivery Network) 호스트 사용 -->
 	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript">
+	
+		function fncLogin() {
+			
+			var id=$("input:text").val();
+			var pw=$("input:password").val();
+			
+			if(id == null || id.length <1) {
+				alert('ID 를 입력하지 않으셨습니다.');
+				$("input:text").focus();
+				return;
+			}
+			
+			if(pw == null || pw.length <1) {
+				alert('패스워드를 입력하지 않으셨습니다.');
+				$("input:password").focus();
+				return;
+			}
+			
+			////////////////////////////////////////////////// 추가 , 변경된 부분 ////////////////////////////////////////////////////////////
+			//$("form").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
+			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			$.ajax( 
+					{
+						url : "/user/json/login",
+						method : "POST" ,
+						dataType : "json" ,
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						data : JSON.stringify({
+							userId : id,
+							password : pw
+						}),
+						success : function(JSONData , status) {
+
+							//Debug...
+							//alert(status);
+							//alert("JSONData : \n"+JSONData);
+							//alert( "JSON.stringify(JSONData) : \n"+JSON.stringify(JSONData) );
+							//alert( JSONData != null );
+							
+							if( JSONData != null ){
+								//[방법1]
+								//$(window.parent.document.location).attr("href","/index.jsp");
+								
+								//[방법2]
+								//window.parent.document.location.reload();
+								
+								//[방법3]
+								$(window.parent.frames["topFrame"].document.location).attr("href","/layout/top.jsp");
+								$(window.parent.frames["leftFrame"].document.location).attr("href","/layout/left.jsp");
+								$(window.parent.frames["rightFrame"].document.location).attr("href","/user/getUser?userId="+JSONData.userId);
+								
+								//==> 방법 1 , 2 , 3 결과 학인
+							}else{
+								alert("아이디 , 패스워드를 확인하시고 다시 로그인...");
+							}
+						}
+				});
+		
+		}
+	
 	   
 		$( function() {
 			
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$("#userId").focus();
 			
-			//==>"Login"  Event 연결
+			$("input[name='password']").on("keydown", function(event){
+				
+				if(event.keyCode == '13'){
+					fncLogin();		
+				}				
+			});		//Login(Enter)
+			
 			$("img[src='/images/btn_login.gif']").on("click" , function() {
-
-				var id=$("input:text").val();
-				var pw=$("input:password").val();
 				
-				if(id == null || id.length <1) {
-					alert('ID 를 입력하지 않으셨습니다.');
-					$("input:text").focus();
-					return;
-				}
-				
-				if(pw == null || pw.length <1) {
-					alert('패스워드를 입력하지 않으셨습니다.');
-					$("input:password").focus();
-					return;
-				}
-				
-				////////////////////////////////////////////////// 추가 , 변경된 부분 ////////////////////////////////////////////////////////////
-				//$("form").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
-				////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-				$.ajax( 
-						{
-							url : "/user/json/login",
-							method : "POST" ,
-							dataType : "json" ,
-							headers : {
-								"Accept" : "application/json",
-								"Content-Type" : "application/json"
-							},
-							data : JSON.stringify({
-								userId : id,
-								password : pw
-							}),
-							success : function(JSONData , status) {
-
-								//Debug...
-								//alert(status);
-								//alert("JSONData : \n"+JSONData);
-								//alert( "JSON.stringify(JSONData) : \n"+JSON.stringify(JSONData) );
-								//alert( JSONData != null );
-								
-								if( JSONData != null ){
-									//[방법1]
-									//$(window.parent.document.location).attr("href","/index.jsp");
-									
-									//[방법2]
-									//window.parent.document.location.reload();
-									
-									//[방법3]
-									$(window.parent.frames["topFrame"].document.location).attr("href","/layout/top.jsp");
-									$(window.parent.frames["leftFrame"].document.location).attr("href","/layout/left.jsp");
-									$(window.parent.frames["rightFrame"].document.location).attr("href","/user/getUser?userId="+JSONData.userId);
-									
-									//==> 방법 1 , 2 , 3 결과 학인
-								}else{
-									alert("아이디 , 패스워드를 확인하시고 다시 로그인...");
-								}
-							}
-					}); 
-					////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-								
-			});
-		});
-		
-		
-		//============= 회원원가입화면이동 =============
-		$( function() {
-			//==> 추가된부분 : "addUser"  Event 연결
+				fncLogin();								
+			});		//Login(클릭)
+			
 			$("img[src='/images/btn_add.gif']").on("click" , function() {
 				self.location = "/user/addUser"
-			});
+			});		//회원가입 화면이동
+			
 		});
 		
 	</script>		
