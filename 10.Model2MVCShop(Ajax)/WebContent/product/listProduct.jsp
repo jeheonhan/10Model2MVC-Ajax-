@@ -6,11 +6,15 @@
 <html>
 <head>
 <title>상품 목록조회</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 
 <!-- jQuery Lib import(CDN) -->
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">	
 
 	function fncGetList(currentPage) {
@@ -23,11 +27,11 @@
 	
 	$(function(){
 		
-		$("input:text[name='searchKeyword']").on("keydown", function(event){			
+		 $("input:text[name='searchKeyword']").on("keydown", function(event){			
 			if(event.keyCode==13){
 				fncGetList('1');
 			}			
-		});
+		}); 
 		
 		$(".ct_btn01:contains('검색')").on("click", function(){
 			fncGetList('1');			
@@ -49,7 +53,44 @@
 		
 		$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
 		
-		console.log ( $(".ct_list_pop:nth-child(4)" ).html() ); //==> ok		
+		//console.log ( $(".ct_list_pop:nth-child(4)" ).html() ); //==> ok
+		
+		
+		$("input:text[name='searchKeyword']").on("click", function(){
+			$.ajax(
+					{
+						url :"/product/json/listProduct" ,
+						method : "POST" ,
+						data : JSON.stringify({								
+									'searchCondition' : '1',
+									'searchKeyword' : ''
+								}),
+						dataType : "json",
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success : function(JSONData, status){						
+							
+							alert("JSONData : \n"+JSONData);
+							var prodNameList = JSON.stringify(JSONData);
+							alert("JSONData : \n"+prodNameList);
+							//Debug..
+							//alert(status);
+							//Debug...
+							//alert("JSONData : \n"+JSONData);
+							//var prodNameList = JSON.stringify(JSONData);
+							
+							$("input[name='searchKeyword']").autocomplete({
+							      source : prodNameList
+							    });
+													
+						}
+					});
+			});
+		
+
+
 		
 	});
 	
