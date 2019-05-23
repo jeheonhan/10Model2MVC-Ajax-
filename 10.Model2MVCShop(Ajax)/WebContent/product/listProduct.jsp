@@ -6,15 +6,15 @@
 <html>
 <head>
 <title>상품 목록조회</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
+
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
 
-
-<!-- jQuery Lib import(CDN) -->
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
 <script type="text/javascript">	
 
 	function fncGetList(currentPage) {
@@ -24,6 +24,7 @@
 //    	document.detailForm.submit();		
 	}
 	
+	var prodNameList = '';
 	
 	$(function(){
 		
@@ -45,8 +46,7 @@
 		});
 		
 		$(".ct_list_pop td:nth-child(11):contains('판매중')").on("click", function(){
-// 			self.location ="/product/getProduct?menu=${param.menu}&prodNo="+$("#prodNo").text().trim();
-			alert($(".ct_list_pop td:nth-child(11)").index(this));
+// 			alert($(".ct_list_pop td:nth-child(11)").index(this));
 			
 			
 		});
@@ -70,28 +70,22 @@
 							"Accept" : "application/json",
 							"Content-Type" : "application/json"
 						},
-						success : function(JSONData, status){						
+						success : function(JSONData){						
 							
-							alert("JSONData : \n"+JSONData);
-							var prodNameList = JSON.stringify(JSONData);
-							alert("JSONData : \n"+prodNameList);
+							//alert("JSONData : \n"+JSONData);
 							//Debug..
 							//alert(status);
 							//Debug...
 							//alert("JSONData : \n"+JSONData);
 							//var prodNameList = JSON.stringify(JSONData);
 							
-							$("input[name='searchKeyword']").autocomplete({
-							      source : prodNameList
-							    });
+							$("input:text[name='searchKeyword']").autocomplete({
+							      source : JSONData
+							  });
 													
 						}
 					});
-			});
-		
-
-
-		
+			});		
 	});
 	
 
@@ -141,7 +135,7 @@
 		
 			<input type="text" name="searchKeyword"  class="ct_input_g" style="width:200px; height:19px"
 					value="${! empty search.searchKeyword ? search.searchKeyword : ""}"  
-					class="ct_input_g" style="width:200px; height:20px">
+					class="ct_input_g" style="width:200px; height:20px"	>
 		</td>
 		
 		
@@ -194,7 +188,10 @@
 				<td></td>				
 				<td align="center">
 					${product.prodName}
-				<div  id="prodNo" style="display:none">${product.prodNo}</div>					
+				<div  id="prodNo" style="display:none">
+				${product.prodNo}
+				</div>
+									
 				</td>		
 				<td></td>
 				<td align="center">${product.price}</td>

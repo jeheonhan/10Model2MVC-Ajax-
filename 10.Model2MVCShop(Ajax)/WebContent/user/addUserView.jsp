@@ -144,13 +144,20 @@
 		});	
 		
 		
-		/* $(function(){
-			$("#qwe").on("keydown", function(){
+// 		 $(function(){
+// 			$("#qwe").on("keyup", function(){
 				
-				var obj = new Object();				
+// 				var obj = new Object();
+// 				obj.userId = $(this).val();
+// 				var user =  JSON.stringify(userId);
 				
-			});
-		}); */
+				
+// 				addddd
+				
+// 				data: user
+				
+// 			});
+		});
 
 	</script>		
 	

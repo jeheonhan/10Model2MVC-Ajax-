@@ -81,6 +81,7 @@ public class ProductRestController {
 		
 		List<String> prodNameList = new ArrayList<String>();
 		
+		
 		for(int i=0; i<productList.size(); i++) {			
 			prodNameList.add(productList.get(i).getProdName());
 		}						
